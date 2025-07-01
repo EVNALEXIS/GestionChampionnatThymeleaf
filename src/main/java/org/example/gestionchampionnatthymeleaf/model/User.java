@@ -1,4 +1,4 @@
-package org.example.gestionchampionnarthymeleaf.model;
+package org.example.gestionchampionnatthymeleaf.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
