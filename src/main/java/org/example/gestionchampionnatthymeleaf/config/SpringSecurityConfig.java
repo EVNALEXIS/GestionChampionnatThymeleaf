@@ -58,7 +58,12 @@ public class SpringSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll())
-                .formLogin(AbstractHttpConfigurer::disable)
+                .formLogin(form -> form
+                        .loginPage("/public/login")
+                        .loginProcessingUrl("/public/login")
+                        .defaultSuccessUrl("/private/users", true)
+                        .permitAll()
+                )
                 .logout(AbstractHttpConfigurer::disable);
 
         return http.build();

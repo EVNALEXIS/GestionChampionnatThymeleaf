@@ -1,6 +1,7 @@
 package org.example.gestionchampionnatthymeleaf.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.Date;
@@ -13,6 +14,7 @@ public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotBlank(message = "Le nom est obligatoire")
     private String name;
     private Date creationDate;
     private String logo;

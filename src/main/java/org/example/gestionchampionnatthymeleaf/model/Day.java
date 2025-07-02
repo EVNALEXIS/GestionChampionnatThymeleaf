@@ -1,5 +1,6 @@
 package org.example.gestionchampionnatthymeleaf.model;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class Day {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Le numéro est obligatoire")
     private String number;
 
     @OneToMany(mappedBy = "day",cascade = CascadeType.ALL)
