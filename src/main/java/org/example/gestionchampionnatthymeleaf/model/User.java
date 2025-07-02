@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -20,6 +21,6 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    private Date creationDate;
+    private LocalDate creationDate;
 
 }

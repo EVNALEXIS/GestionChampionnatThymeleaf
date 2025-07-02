@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Liste des Championnats</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<h1>Liste des Championnats</h1>
+
+<a th:href="@{/private/championship/form}">Ajouter un nouveau championnat</a>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Logo</th>
+        <th>Date début</th>
+        <th>Date fin</th>
+        <th>Points victoire</th>
+        <th>Points défaite</th>
+        <th>Points nul</th>
+        <th>Type de classement</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="championship : ${championships}">
+        <td th:text="${championship.name}">Nom</td>
+        <td>
+            <img th:if="${championship.logo != null}" th:src="${championship.logo}" alt="Logo" width="50" />
+        </td>
+        <td th:text="${championship.startDate}">Date début</td>
+        <td th:text="${championship.endDate}">Date fin</td>
+        <td th:text="${championship.wonPoint}">Points victoire</td>
+        <td th:text="${championship.lostPoint}">Points défaite</td>
+        <td th:text="${championship.drawPoint}">Points nul</td>
+        <td th:text="${championship.typeRanking}">Type classement</td>
+        <td>
+            <a th:href="@{'/championship/form?id=' + ${championship.id}}">Modifier</a>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(championships)}">
+        <td colspan="9">Aucun championnat trouvé.</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

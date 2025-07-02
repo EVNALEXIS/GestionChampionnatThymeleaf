@@ -1,4 +1,4 @@
-package org.example.gestionchampionnarthymeleaf;
+package org.example.gestionchampionnatthymeleaf;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GestionChampionnatThymeleafApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(GestionChampionnatThymeleafApplication.class, args);
     }
 
 }
+

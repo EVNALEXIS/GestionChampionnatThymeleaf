@@ -3,6 +3,7 @@ package org.example.gestionchampionnatthymeleaf.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -15,8 +16,8 @@ public class Championship {
     private Long id;
     private String name;
     private String logo;
-    private Date StartDate;
-    private Date EndDate;
+    private LocalDate StartDate;
+    private LocalDate EndDate;
     private int wonPoint;
     private int lostPoint;
     private int drawPoint;

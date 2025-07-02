@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulaire Championnat</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<h1>Ajouter / Modifier un Championnat</h1>
+
+<form th:action="@{/private/championship/save}" th:object="${championship}" method="post">
+
+    <div>
+        <label for="name">Nom :</label>
+        <input type="text" id="name" th:field="*{name}" />
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    </div>
+
+    <div>
+        <label for="logo">Logo (URL) :</label>
+        <input type="text" id="logo" th:field="*{logo}" />
+        <div th:if="${#fields.hasErrors('logo')}" th:errors="*{logo}"></div>
+    </div>
+
+    <div>
+        <label for="startDate">Date de début :</label>
+        <input type="date" id="startDate" th:field="*{startDate}" />
+        <div th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></div>
+    </div>
+
+    <div>
+        <label for="endDate">Date de fin :</label>
+        <input type="date" id="endDate" th:field="*{endDate}" />
+        <div th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></div>
+    </div>
+
+    <div>
+        <label for="wonPoint">Points pour victoire :</label>
+        <input type="number" id="wonPoint" th:field="*{wonPoint}" min="0" />
+        <div th:if="${#fields.hasErrors('wonPoint')}" th:errors="*{wonPoint}"></div>
+    </div>
+
+    <div>
+        <label for="lostPoint">Points pour défaite :</label>
+        <input type="number" id="lostPoint" th:field="*{lostPoint}" min="0" />
+        <div th:if="${#fields.hasErrors('lostPoint')}" th:errors="*{lostPoint}"></div>
+    </div>
+
+    <div>
+        <label for="drawPoint">Points pour match nul :</label>
+        <input type="number" id="drawPoint" th:field="*{drawPoint}" min="0" />
+        <div th:if="${#fields.hasErrors('drawPoint')}" th:errors="*{drawPoint}"></div>
+    </div>
+
+    <div>
+        <label for="typeRanking">Type de classement ex-aequo :</label>
+        <select id="typeRanking" th:field="*{typeRanking}">
+            <option value="" disabled>-- Sélectionnez --</option>
+            <option value="Buts Marqués">Buts Marqués</option>
+            <option value="Buts Concédés">Buts Concédés</option>
+            <option value="Différence de buts">Différence de buts</option>
+        </select>
+        <div th:if="${#fields.hasErrors('typeRanking')}" th:errors="*{typeRanking}"></div>
+    </div>
+
+    <div>
+        <label for="teams">Équipes :</label>
+        <select id="teams" th:field="*{teams}" multiple size="5">
+            <option th:each="team : ${allTeams}"
+                    th:value="${team.id}"
+                    th:text="${team.name}"
+                    th:selected="${#lists.contains(championship.teams, team)}">
+            </option>
+        </select>
+        <div th:if="${#fields.hasErrors('teams')}" th:errors="*{teams}"></div>
+    </div>
+
+    <button type="submit">Enregistrer</button>
+
+</form>
+
+</body>
+</html>
