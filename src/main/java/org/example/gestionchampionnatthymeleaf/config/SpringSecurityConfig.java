@@ -55,16 +55,12 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable) // désactive la protection CSRF pour les tests
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll())
-                .formLogin(form -> form
-                        .loginPage("/public/login")
-                        .loginProcessingUrl("/public/login")
-                        .defaultSuccessUrl("/private/users", true)
-                        .permitAll()
+                        .anyRequest().permitAll() // autorise toutes les requêtes
                 )
-                .logout(AbstractHttpConfigurer::disable);
+                .formLogin(AbstractHttpConfigurer::disable) // désactive complètement la page de login
+                .logout(AbstractHttpConfigurer::disable); // désactive logout (facultatif)
 
         return http.build();
     }

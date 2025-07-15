@@ -9,5 +9,6 @@ public interface ChampionshipService {
     Championship addChampionship(Championship championship);
     Championship getChampionshipById(Long id);
     List<Championship> getAllChampionships();
+    void deleteChampionship(Long id);
 
 }

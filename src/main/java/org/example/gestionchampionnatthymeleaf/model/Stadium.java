@@ -1,6 +1,7 @@
 package org.example.gestionchampionnatthymeleaf.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -16,8 +17,8 @@ public class Stadium {
     @NotBlank(message = "Le nom est obligatoire")
     private String name;
     @NotBlank(message = "L'adresse est obligatoire")
-    private String adress;
-    @NotBlank(message = "La capacité est obligatoire")
+    private String address;
+    @Min(value = 1, message = "La capacité doit être supérieure à 0")
     private int capacity;
     private String phone;
 

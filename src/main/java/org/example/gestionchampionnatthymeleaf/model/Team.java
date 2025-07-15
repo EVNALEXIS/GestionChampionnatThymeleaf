@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -13,10 +14,10 @@ public class Team {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @NotBlank(message = "Le nom est obligatoire")
     private String name;
-    private Date creationDate;
+    private LocalDate creationDate;
     private String logo;
     private String coach;
     private String president;
@@ -31,13 +32,17 @@ public class Team {
     @OneToMany(mappedBy = "team2")
     private List<Game> gamesAsTeam2;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "stadium_id")
     private Stadium stadium;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "country_id")
     private Country country;
+
+    @ManyToMany(mappedBy = "teams")
+    private List<Championship> championships;
+
 
 
 }

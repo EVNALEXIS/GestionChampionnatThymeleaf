@@ -32,4 +32,9 @@ public class ChampionshipServiceImpl implements ChampionshipService {
     public List<Championship> getAllChampionships() {
         return championshipRepository.findAll();
     }
+
+    @Override
+    public void deleteChampionship(Long id) {
+        championshipRepository.deleteById(id);
+    }
 }

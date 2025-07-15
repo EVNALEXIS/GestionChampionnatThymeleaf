@@ -33,5 +33,10 @@ public class TeamServiceImpl implements TeamService {
         return teamRepository.findAll();
     }
 
+    @Override
+    public void deleteTeam(Long id) {
+        teamRepository.deleteById(id);
+    }
+
 
 }
