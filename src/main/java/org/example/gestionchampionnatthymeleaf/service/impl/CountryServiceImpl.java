@@ -1,9 +1,7 @@
 package org.example.gestionchampionnatthymeleaf.service.impl;
 
 import org.example.gestionchampionnatthymeleaf.model.Country;
-import org.example.gestionchampionnatthymeleaf.model.Team;
 import org.example.gestionchampionnatthymeleaf.repository.CountryRepository;
-import org.example.gestionchampionnatthymeleaf.repository.TeamRepository;
 import org.example.gestionchampionnatthymeleaf.service.CountryService;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +11,9 @@ import java.util.List;
 public class CountryServiceImpl implements CountryService {
 
     private final CountryRepository countryRepository;
-    private final TeamRepository teamRepository;
 
-    public CountryServiceImpl(CountryRepository countryRepository, TeamRepository teamRepository) {
+    public CountryServiceImpl(CountryRepository countryRepository) {
         this.countryRepository = countryRepository;
-        this.teamRepository = teamRepository;
     }
 
     @Override
@@ -36,8 +32,4 @@ public class CountryServiceImpl implements CountryService {
         return countryRepository.findAll();
     }
 
-    @Override
-    public List<Team> getAllTeamsByCountry(Country country) {
-        return teamRepository.findByCountry(country);
-    }
 }

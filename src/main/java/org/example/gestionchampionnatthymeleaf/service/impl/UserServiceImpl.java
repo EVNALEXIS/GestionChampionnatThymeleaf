@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;

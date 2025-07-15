@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ChampionshipService {
 
-    Championship addChampionship(Championship championship);
+    void addChampionship(Championship championship);
 
     Championship getChampionshipById(Long id);
 

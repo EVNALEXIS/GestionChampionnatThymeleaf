@@ -2,7 +2,6 @@ package org.example.gestionchampionnatthymeleaf.service.impl;
 
 import org.example.gestionchampionnatthymeleaf.model.Championship;
 import org.example.gestionchampionnatthymeleaf.model.Team;
-import org.example.gestionchampionnatthymeleaf.repository.CountryRepository;
 import org.example.gestionchampionnatthymeleaf.repository.TeamRepository;
 import org.example.gestionchampionnatthymeleaf.service.TeamService;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepository;
 
 
-    public TeamServiceImpl(TeamRepository teamRepository, CountryRepository countryRepository) {
+    public TeamServiceImpl(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
 

@@ -25,8 +25,8 @@ public class ChampionshipServiceImpl implements ChampionshipService {
 
 
     @Override
-    public Championship addChampionship(Championship championship) {
-        return championshipRepository.save(championship);
+    public void addChampionship(Championship championship) {
+        championshipRepository.save(championship);
     }
 
     @Override

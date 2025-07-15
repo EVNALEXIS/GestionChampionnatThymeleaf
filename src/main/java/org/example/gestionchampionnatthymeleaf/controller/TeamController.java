@@ -101,6 +101,7 @@ public class TeamController {
             System.out.println(">>> Erreur : aucun stade existant sélectionné");
             bindingResult.rejectValue("stadium", "error.team.stadium.required", "Veuillez sélectionner un stade existant.");
         } else if ("new".equals(stadiumChoice)) {
+            assert team.getStadium() != null;
             if (team.getStadium().getName() == null || team.getStadium().getName().trim().isEmpty()) {
                 System.out.println(">>> Erreur : nom du stade manquant");
                 bindingResult.rejectValue("stadium.name", "error.team.stadium.name.required", "Le nom du stade est obligatoire.");
@@ -119,6 +120,7 @@ public class TeamController {
             System.out.println(">>> Erreur : aucun pays existant sélectionné");
             bindingResult.rejectValue("country", "error.team.country.required", "Veuillez sélectionner un pays existant.");
         } else if ("new".equals(countryChoice)) {
+            assert team.getCountry() != null;
             if (team.getCountry().getName() == null || team.getCountry().getName().trim().isEmpty()) {
                 System.out.println(">>> Erreur : nom du pays manquant");
                 bindingResult.rejectValue("country.name", "error.team.country.name.required", "Le nom du pays est obligatoire.");
