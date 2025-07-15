@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface StadiumService {
     Stadium addStadium(Stadium stadium);
+
     Stadium getStadiumById(Long id);
+
     List<Stadium> getAllStadiums();
 }

@@ -1,14 +1,20 @@
 package org.example.gestionchampionnatthymeleaf.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
-@Data
 @Entity
+@Getter
+@Setter
+//@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = "teams")
+@EqualsAndHashCode(exclude = "teams")
 public class Stadium {
 
     @Id
@@ -22,6 +28,20 @@ public class Stadium {
     private int capacity;
     private String phone;
 
-    @OneToMany(mappedBy = "stadium", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "stadium")
+    @JsonIgnore
     private List<Team> teams;
+
+
+    public Stadium(String name, String address, int capacity, String phone) {
+
+        this.name = name;
+        this.address = address;
+        this.capacity = capacity;
+        this.phone = phone;
+    }
+
+    public Stadium() {
+
+    }
 }

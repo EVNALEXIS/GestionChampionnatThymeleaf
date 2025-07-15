@@ -36,14 +36,14 @@ public class AuthController {
     }
 
     @PostMapping("/public/register/save")
-    public String registration(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model){
+    public String registration(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model) {
         User existingUser = userService.getUserByEmail(userDto.getEmail());
 
-        if(existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()){
+        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
             result.rejectValue("email", null,
                     "There is already an account registered with the same email");
         }
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             model.addAttribute("user", userDto);
             return "public/register";
         }
@@ -53,14 +53,14 @@ public class AuthController {
     }
 
     @GetMapping("/private/users")
-    public String users(Model model){
+    public String users(Model model) {
         List<UserDto> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "private/users";
     }
 
     @GetMapping("/public/login")
-    public String login(){
+    public String login() {
         return "public/login";
     }
 }

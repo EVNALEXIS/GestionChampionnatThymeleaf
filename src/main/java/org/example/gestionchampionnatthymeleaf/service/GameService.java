@@ -7,6 +7,8 @@ import java.util.List;
 public interface GameService {
 
     Game addGame(Game game);
+
     Game getGameById(Long id);
+
     List<Game> getAllGames();
 }

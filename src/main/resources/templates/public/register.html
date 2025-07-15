@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Inscription</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Bootstrap & FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <!-- Custom Style -->
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body class="bg-light">
 
@@ -28,38 +28,39 @@
                 <div class="card-body">
 
                     <!-- Message de succès -->
-                    <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.success}">
                         <i class="fas fa-check-circle"></i> Inscription réussie !
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <button class="btn-close" data-bs-dismiss="alert" type="button"></button>
                     </div>
 
-                    <form th:action="@{/register/save}" method="post" th:object="${user}">
+                    <form method="post" th:action="@{/register/save}" th:object="${user}">
                         <div class="mb-3">
                             <label class="form-label">Prénom</label>
-                            <input type="text" class="form-control" th:field="*{firstName}" placeholder="Votre prénom">
-                            <p th:errors="*{firstName}" class="text-danger small mt-1"></p>
+                            <input class="form-control" placeholder="Votre prénom" th:field="*{firstName}" type="text">
+                            <p class="text-danger small mt-1" th:errors="*{firstName}"></p>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Nom</label>
-                            <input type="text" class="form-control" th:field="*{lastName}" placeholder="Votre nom">
-                            <p th:errors="*{lastName}" class="text-danger small mt-1"></p>
+                            <input class="form-control" placeholder="Votre nom" th:field="*{lastName}" type="text">
+                            <p class="text-danger small mt-1" th:errors="*{lastName}"></p>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Adresse e-mail</label>
-                            <input type="email" class="form-control" th:field="*{email}" placeholder="exemple@domaine.com">
-                            <p th:errors="*{email}" class="text-danger small mt-1"></p>
+                            <input class="form-control" placeholder="exemple@domaine.com" th:field="*{email}"
+                                   type="email">
+                            <p class="text-danger small mt-1" th:errors="*{email}"></p>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Mot de passe</label>
-                            <input type="password" class="form-control" th:field="*{password}" placeholder="••••••••">
-                            <p th:errors="*{password}" class="text-danger small mt-1"></p>
+                            <input class="form-control" placeholder="••••••••" th:field="*{password}" type="password">
+                            <p class="text-danger small mt-1" th:errors="*{password}"></p>
                         </div>
 
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">
+                            <button class="btn btn-primary" type="submit">
                                 <i class="fas fa-user-plus"></i> S'inscrire
                             </button>
                         </div>

@@ -2,7 +2,7 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title th:text="${pageTitle}">Gestion Championnat</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -17,62 +17,65 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h3 th:text="${pageTitle}" class="mb-0">Formulaire Championnat</h3>
+                    <h3 class="mb-0" th:text="${pageTitle}">Formulaire Championnat</h3>
                 </div>
                 <div class="card-body">
 
                     <!-- Messages d'erreur globaux -->
-                    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                    <div class="alert alert-danger" role="alert" th:if="${errorMessage}">
                         <i class="fas fa-exclamation-triangle"></i>
                         <span th:text="${errorMessage}"></span>
                     </div>
 
-                    <form th:action="@{/private/championships/save}"
-                          method="post"
+                    <form method="post"
+                          th:action="@{/private/championships/save}"
                           th:object="${championship}">
 
                         <!-- ✅ Champ caché pour l'ID (seulement en modification) -->
-                        <input type="hidden" th:field="*{id}" th:if="${championship.id != null}">
+                        <input th:field="*{id}" th:if="${championship.id != null}" type="hidden">
 
                         <!-- Nom du championnat -->
                         <div class="mb-3">
-                            <label for="name" class="form-label">Nom du championnat <span class="text-danger">*</span></label>
-                            <input type="text"
-                                   th:field="*{name}"
-                                   class="form-control"
-                                   th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
+                            <label class="form-label" for="name">Nom du championnat <span
+                                    class="text-danger">*</span></label>
+                            <input class="form-control"
                                    id="name"
                                    placeholder="Entrez le nom du championnat"
-                                   required>
-                            <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+                                   required
+                                   th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
+                                   th:field="*{name}"
+                                   type="text">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
                                 <span th:errors="*{name}"></span>
                             </div>
                         </div>
 
                         <!-- Date de début -->
                         <div class="mb-3">
-                            <label for="startDate" class="form-label">Date de début <span class="text-danger">*</span></label>
-                            <input type="date"
-                                   th:field="*{startDate}"
-                                   class="form-control"
-                                   th:classappend="${#fields.hasErrors('StartDate')} ? 'is-invalid' : ''"
+                            <label class="form-label" for="startDate">Date de début <span
+                                    class="text-danger">*</span></label>
+                            <input class="form-control"
                                    id="startDate"
-                                   required>
-                            <div th:if="${#fields.hasErrors('StartDate')}" class="invalid-feedback">
+                                   required
+                                   th:classappend="${#fields.hasErrors('StartDate')} ? 'is-invalid' : ''"
+                                   th:field="*{startDate}"
+                                   type="date">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('StartDate')}">
                                 <span th:errors="*{startDate}"></span>
                             </div>
                         </div>
 
                         <!-- Date de fin -->
                         <div class="mb-3">
-                            <label for="endDate" class="form-label">Date de fin <span class="text-danger">*</span></label>
-                            <input type="date"
-                                   th:field="*{endDate}"
-                                   class="form-control"
-                                   th:classappend="${#fields.hasErrors('EndDate')} ? 'is-invalid' : ''"
+                            <label class="form-label" for="endDate">Date de fin <span
+                                    class="text-danger">*</span></label>
+                            <input class="form-control"
                                    id="endDate"
-                                   required>
-                            <div th:if="${#fields.hasErrors('EndDate')}" class="invalid-feedback">
+                                   required
+                                   th:classappend="${#fields.hasErrors('EndDate')} ? 'is-invalid' : ''"
+                                   th:field="*{endDate}"
+                                   type="date">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('EndDate')}">
                                 <span th:errors="*{endDate}"></span>
                             </div>
                         </div>
@@ -81,14 +84,14 @@
 
                         <!-- Logo -->
                         <div class="mb-3">
-                            <label for="logo" class="form-label">URL du logo</label>
-                            <input type="url"
-                                   th:field="*{logo}"
-                                   class="form-control"
-                                   th:classappend="${#fields.hasErrors('logo')} ? 'is-invalid' : ''"
+                            <label class="form-label" for="logo">URL du logo</label>
+                            <input class="form-control"
                                    id="logo"
-                                   placeholder="https://example.com/logo.png">
-                            <div th:if="${#fields.hasErrors('logo')}" class="invalid-feedback">
+                                   placeholder="https://example.com/logo.png"
+                                   th:classappend="${#fields.hasErrors('logo')} ? 'is-invalid' : ''"
+                                   th:field="*{logo}"
+                                   type="url">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('logo')}">
                                 <span th:errors="*{logo}"></span>
                             </div>
                         </div>
@@ -96,38 +99,38 @@
                         <!-- Points -->
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <label for="wonPoint" class="form-label">Points victoire</label>
-                                <input type="number"
-                                       th:field="*{wonPoint}"
-                                       class="form-control"
+                                <label class="form-label" for="wonPoint">Points victoire</label>
+                                <input class="form-control"
                                        id="wonPoint"
                                        min="0"
+                                       th:field="*{wonPoint}"
+                                       type="number"
                                        value="3">
                             </div>
                             <div class="col-md-4">
-                                <label for="drawPoint" class="form-label">Points nul</label>
-                                <input type="number"
-                                       th:field="*{drawPoint}"
-                                       class="form-control"
+                                <label class="form-label" for="drawPoint">Points nul</label>
+                                <input class="form-control"
                                        id="drawPoint"
                                        min="0"
+                                       th:field="*{drawPoint}"
+                                       type="number"
                                        value="1">
                             </div>
                             <div class="col-md-4">
-                                <label for="lostPoint" class="form-label">Points défaite</label>
-                                <input type="number"
-                                       th:field="*{lostPoint}"
-                                       class="form-control"
+                                <label class="form-label" for="lostPoint">Points défaite</label>
+                                <input class="form-control"
                                        id="lostPoint"
                                        min="0"
+                                       th:field="*{lostPoint}"
+                                       type="number"
                                        value="0">
                             </div>
                         </div>
 
                         <!-- Type de classement -->
                         <div class="mb-3">
-                            <label for="typeRanking" class="form-label">Type de classement</label>
-                            <select th:field="*{typeRanking}" class="form-select" id="typeRanking">
+                            <label class="form-label" for="typeRanking">Type de classement</label>
+                            <select class="form-select" id="typeRanking" th:field="*{typeRanking}">
                                 <option value="">Sélectionnez un type</option>
                                 <option value="POINTS">Points</option>
                                 <option value="DIFFERENCE_BUTS">Différence de buts</option>
@@ -139,11 +142,11 @@
 
                         <!-- Boutons -->
                         <div class="d-flex justify-content-between">
-                            <a th:href="@{/public/championships}" class="btn btn-secondary">
+                            <a class="btn btn-secondary" th:href="@{/public/championships}">
                                 <i class="fas fa-arrow-left"></i> Retour
                             </a>
 
-                            <button type="submit" class="btn btn-primary">
+                            <button class="btn btn-primary" type="submit">
                                 <i class="fas fa-save"></i>
                                 <!-- ✅ Bouton dynamique selon le contexte -->
                                 <span th:text="${championship.id != null ? 'Modifier' : 'Créer'}">Sauvegarder</span>

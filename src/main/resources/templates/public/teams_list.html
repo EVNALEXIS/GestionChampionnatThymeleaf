@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>Gestion des Équipes</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <style>
         .team-logo {
             max-width: 40px;
@@ -14,28 +14,35 @@
             border-radius: 8px;
             object-fit: cover;
         }
+
         .table-actions {
             white-space: nowrap;
             width: 1%;
         }
+
         .btn-group-sm .btn {
             padding: 0.25rem 0.5rem;
             font-size: 0.775rem;
         }
+
         .team-card {
             transition: transform 0.2s;
         }
+
         .team-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         .badge-custom {
             font-size: 0.7rem;
         }
+
         @media (max-width: 768px) {
             .table-responsive {
                 font-size: 0.875rem;
             }
+
             .btn-group-sm .btn {
                 padding: 0.2rem 0.4rem;
                 font-size: 0.7rem;
@@ -51,20 +58,20 @@
 <div class="container">
 
     <!-- Messages succès/erreur -->
-    <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.success}">
         <i class="fas fa-check-circle"></i>
         <strong>Succès !</strong> Opération réalisée avec succès.
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <button class="btn-close" data-bs-dismiss="alert" type="button"></button>
     </div>
-    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successMessage}">
         <i class="fas fa-check-circle"></i>
         <span th:text="${successMessage}"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <button class="btn-close" data-bs-dismiss="alert" type="button"></button>
     </div>
-    <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${param.error}">
         <i class="fas fa-exclamation-triangle"></i>
         <strong>Erreur !</strong> Une erreur s'est produite.
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <button class="btn-close" data-bs-dismiss="alert" type="button"></button>
     </div>
 
     <!-- En-tête avec titre et bouton ajout -->
@@ -73,7 +80,7 @@
             <h1 class="h3 mb-0"><i class="fas fa-users"></i> Liste des Équipes</h1>
             <p class="text-muted mb-0" th:text="${#lists.size(teams)} + ' équipe(s) trouvée(s)'">0 équipe(s)</p>
         </div>
-        <a th:href="@{/private/teams/new}" class="btn btn-success">
+        <a class="btn btn-success" th:href="@{/private/teams/new}">
             <i class="fas fa-plus"></i> Nouvelle Équipe
         </a>
     </div>
@@ -86,10 +93,10 @@
                     <thead class="table-dark">
                     <tr>
                         <th scope="col"><i class="fas fa-users"></i> Nom</th>
-                        <th scope="col" class="text-center"><i class="fas fa-image"></i> Logo</th>
+                        <th class="text-center" scope="col"><i class="fas fa-image"></i> Logo</th>
                         <th scope="col"><i class="fas fa-calendar-alt"></i> Date de création</th>
                         <th scope="col"><i class="fas fa-trophy"></i> Championnat</th>
-                        <th scope="col" class="table-actions text-center">Actions</th>
+                        <th class="table-actions text-center" scope="col">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -104,12 +111,12 @@
 
                         <!-- Logo -->
                         <td class="text-center">
-                            <img th:if="${team.logo != null and !#strings.isEmpty(team.logo)}"
-                                 th:src="${team.logo}"
-                                 alt="Logo"
-                                 class="team-logo" />
-                            <i th:unless="${team.logo != null and !#strings.isEmpty(team.logo)}"
-                               class="fas fa-image text-muted fa-2x"></i>
+                            <img alt="Logo"
+                                 class="team-logo"
+                                 th:if="${team.logo != null and !#strings.isEmpty(team.logo)}"
+                                 th:src="${team.logo}"/>
+                            <i class="fas fa-image text-muted fa-2x"
+                               th:unless="${team.logo != null and !#strings.isEmpty(team.logo)}"></i>
                         </td>
 
                         <!-- Date de création -->
@@ -118,24 +125,25 @@
                         <!-- Championnats associés -->
                         <td>
                             <span th:if="${#lists.isEmpty(team.championships)}">—</span>
-                            <span th:each="champ : ${team.championships}" class="badge bg-info me-1" th:text="${champ.name}">Championnat</span>
+                            <span class="badge bg-info me-1" th:each="champ : ${team.championships}"
+                                  th:text="${champ.name}">Championnat</span>
                         </td>
 
                         <!-- Actions -->
                         <td class="table-actions text-center">
                             <div class="btn-group btn-group-sm" role="group">
-                                <a th:href="@{'/private/teams/edit/' + ${team.id}}"
-                                   class="btn btn-outline-primary"
+                                <a class="btn btn-outline-primary"
+                                   th:href="@{'/private/teams/edit/' + ${team.id}}"
                                    title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button type="button"
-                                        class="btn btn-outline-danger"
+                                <button class="btn btn-outline-danger"
+                                        data-bs-target="#deleteModal"
+                                        data-bs-toggle="modal"
                                         th:data-bs-team-id="${team.id}"
                                         th:data-bs-team-name="${team.name}"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal"
-                                        title="Supprimer">
+                                        title="Supprimer"
+                                        type="button">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -144,12 +152,12 @@
 
                     <!-- Message si aucune équipe -->
                     <tr th:if="${#lists.isEmpty(teams)}">
-                        <td colspan="5" class="text-center py-5">
+                        <td class="text-center py-5" colspan="5">
                             <div class="text-muted">
                                 <i class="fas fa-users fa-3x mb-3"></i>
                                 <h5>Aucune équipe trouvée</h5>
                                 <p>Commencez par créer votre première équipe !</p>
-                                <a th:href="@{/private/teams/new}" class="btn btn-primary">
+                                <a class="btn btn-primary" th:href="@{/private/teams/new}">
                                     <i class="fas fa-plus"></i> Créer une équipe
                                 </a>
                             </div>
@@ -164,24 +172,24 @@
 </div>
 
 <!-- Modal confirmation suppression -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="deleteModalLabel" class="modal fade" id="deleteModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteModalLabel">
                     <i class="fas fa-exclamation-triangle text-warning"></i> Confirmer la suppression
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
             <div class="modal-body">
                 <p>Êtes-vous sûr de vouloir supprimer l'équipe <strong id="teamName"></strong> ?</p>
                 <p class="text-muted small"><i class="fas fa-info-circle"></i> Cette action est irréversible.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">
                     <i class="fas fa-times"></i> Annuler
                 </button>
-                <a id="confirmDeleteBtn" href="#" class="btn btn-danger">
+                <a class="btn btn-danger" href="#" id="confirmDeleteBtn">
                     <i class="fas fa-trash"></i> Supprimer
                 </a>
             </div>
@@ -192,12 +200,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script>
     // Gestion du modal de suppression
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const deleteModal = document.getElementById('deleteModal');
         const teamName = document.getElementById('teamName');
         const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 
-        deleteModal.addEventListener('show.bs.modal', function(event) {
+        deleteModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
             const teamId = button.getAttribute('data-bs-team-id');
             const name = button.getAttribute('data-bs-team-name');

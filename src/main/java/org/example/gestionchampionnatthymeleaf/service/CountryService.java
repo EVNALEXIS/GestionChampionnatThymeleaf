@@ -8,8 +8,11 @@ import java.util.List;
 public interface CountryService {
 
     Country addCountry(Country country);
+
     Country getCountryById(Long id);
+
     List<Country> getAllCountries();
-    List<Team>getAllTeamsByCountry(Country country);
+
+    List<Team> getAllTeamsByCountry(Country country);
 
 }

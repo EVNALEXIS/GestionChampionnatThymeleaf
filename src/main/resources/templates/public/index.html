@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Accueil</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Bootstrap & FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
@@ -30,14 +30,18 @@
                         Ce système vous permet de vous inscrire, vous connecter et gérer les championnats.
                     </p>
                     <div class="mt-4 d-flex justify-content-center gap-3">
-                        <a th:href="@{/public/register}" class="btn btn-outline-primary">
+                        <a class="btn btn-outline-primary" th:href="@{/public/register}">
                             <i class="fas fa-user-plus"></i> S'inscrire
                         </a>
-                        <a th:href="@{/public/login}" class="btn btn-outline-secondary">
+                        <a class="btn btn-outline-secondary" th:href="@{/public/login}">
                             <i class="fas fa-sign-in-alt"></i> Se connecter
                         </a>
-                        <a th:href="@{/public/championships}" class="btn btn-outline-success">
+                        <a class="btn btn-outline-success" th:href="@{/public/championships}">
                             <i class="fas fa-trophy"></i> Championnats
+                        </a>
+                        <a class="btn btn-outline-success" th:href="@{/private/teams}">
+                            <i class="fa-solid fa-people-group"></i> Equipes
+
                         </a>
                     </div>
                 </div>

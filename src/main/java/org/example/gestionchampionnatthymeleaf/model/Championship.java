@@ -4,15 +4,20 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-@Data
 @Entity
+@Getter
+@Setter
+//@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"teams", "days"})
+@EqualsAndHashCode(exclude = {"teams", "days"})
 public class Championship {
 
     @Id
@@ -38,12 +43,27 @@ public class Championship {
     @NotBlank(message = "Le type de classement est obligatoire")
     private String typeRanking;
 
-    @OneToMany(mappedBy = "championship")
-    private List<Day>days;
+    @OneToMany(mappedBy = "championship", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Day> days;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "championship_team",
             joinColumns = @JoinColumn(name = "championship_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id"))
-    private List<Team> teams;
+    private Set<Team> teams;
+
+    public Championship(String name, String logo, LocalDate endDate, LocalDate startDate, int wonPoint, int lostPoint, int drawPoint, String typeRanking) {
+        this.name = name;
+        this.logo = logo;
+        this.endDate = endDate;
+        this.startDate = startDate;
+        this.wonPoint = wonPoint;
+        this.lostPoint = lostPoint;
+        this.drawPoint = drawPoint;
+        this.typeRanking = typeRanking;
+    }
+
+    public Championship() {
+
+    }
 }

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Détail du Championnat</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-4">
+
+    <!-- En-tête du championnat -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2>
+                <i class="fas fa-trophy text-warning me-2"></i>
+                <span th:text="${championship.name}">Nom du championnat</span>
+            </h2>
+            <p class="text-muted mb-0">
+                <i class="fas fa-calendar-alt"></i>
+                <span th:text="${#temporals.format(championship.startDate, 'dd/MM/yyyy')}"></span>
+                -
+                <span th:text="${#temporals.format(championship.endDate, 'dd/MM/yyyy')}"></span>
+            </p>
+        </div>
+        <a class="btn btn-success" th:href="@{'/private/championships/' + ${championship.id} + '/days/new'}">
+            <i class="fas fa-calendar-plus"></i> Ajouter une journée
+        </a>
+    </div>
+
+    <!-- Liste des journées -->
+    <div th:if="${!#lists.isEmpty(championship.days)}">
+        <div class="accordion" id="daysAccordion">
+            <div class="accordion-item" th:each="day : ${championship.days}">
+                <h2 class="accordion-header" th:id="'heading-' + ${day.id}">
+                    <button aria-expanded="false" class="accordion-button collapsed" data-bs-toggle="collapse"
+                            th:aria-controls="'collapse-' + ${day.id}" th:data-bs-target="'#collapse-' + ${day.id}"
+                            type="button">
+                        <i class="fas fa-calendar-day me-2 text-primary"></i>
+                        Journée: <span th:text=" ${day.number}">1</span>
+                    </button>
+                </h2>
+                <div class="accordion-collapse collapse" data-bs-parent="#daysAccordion"
+                     th:aria-labelledby="'heading-' + ${day.id}" th:id="'collapse-' + ${day.id}">
+                    <div class="accordion-body">
+
+                        <!-- Bouton Ajouter match -->
+                        <div class="mb-2 text-end">
+                            <a class="btn btn-outline-primary btn-sm"
+                               th:href="@{'/private/days/' + ${day.id} + '/games/new'}">
+                                <i class="fas fa-plus"></i> Ajouter un match
+                            </a>
+                        </div>
+
+                        <!-- Liste des matchs -->
+                        <div th:if="${!#lists.isEmpty(day.games)}">
+                            <table class="table table-sm table-hover">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>Équipe 1</th>
+                                    <th class="text-center">Score</th>
+                                    <th>Équipe 2</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="game : ${day.games}">
+                                    <td th:text="${game.team1.name}">Équipe A</td>
+                                    <td class="text-center">
+                                        <span th:text="${game.team1points}">0</span>
+                                        -
+                                        <span th:text="${game.team2points}">0</span>
+                                    </td>
+                                    <td th:text="${game.team2.name}">Équipe B</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-sm btn-outline-secondary"
+                                           th:href="@{'/private/games/edit/' + ${game.id}}">
+                                            <i class="fas fa-edit"></i> Modifier
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-muted text-center" th:if="${#lists.isEmpty(day.games)}">
+                            Aucun match ajouté à cette journée.
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Aucun jour encore -->
+    <div class="alert alert-info text-center mt-4" th:if="${#lists.isEmpty(championship.days)}">
+        <i class="fas fa-calendar-times fa-2x mb-2"></i>
+        <p class="mb-1">Aucune journée n’a encore été créée pour ce championnat.</p>
+        <a class="btn btn-primary btn-sm" th:href="@{'/private/championships/' + ${championship.id} + '/days/new'}">
+            <i class="fas fa-plus"></i> Créer une première journée
+        </a>
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

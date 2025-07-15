@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Résultats - [[${championship.name}]]</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body class="bg-light">
+
+<!-- Navigation -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-4">
+    <!-- En-tête -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3"><i class="fas fa-chart-line"></i> Classement - [[${championship.name}]]</h1>
+            <p class="text-muted mb-0">Période :
+                <span th:text="${#temporals.format(championship.startDate, 'dd/MM/yyyy')}">01/01/2024</span> -
+                <span th:text="${#temporals.format(championship.endDate, 'dd/MM/yyyy')}">31/12/2024</span>
+            </p>
+        </div>
+        <a class="btn btn-secondary" th:href="@{/public/championships}">
+            <i class="fas fa-arrow-left"></i> Retour
+        </a>
+    </div>
+
+    <!-- Classement -->
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">
+            <i class="fas fa-ranking-star"></i> Classement Général
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Équipe</th>
+                        <th class="text-center">J</th>
+                        <th class="text-center">G</th>
+                        <th class="text-center">N</th>
+                        <th class="text-center">P</th>
+                        <th class="text-center">BP</th>
+                        <th class="text-center">BC</th>
+                        <th class="text-center">Diff</th>
+                        <th class="text-center">Pts</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="standing, iterStat : ${standings}">
+                        <td th:text="${iterStat.index + 1}">1</td>
+                        <td th:text="${standing.team.name}">Équipe</td>
+                        <td class="text-center" th:text="${standing.played}">0</td>
+                        <td class="text-center" th:text="${standing.wins}">0</td>
+                        <td class="text-center" th:text="${standing.draws}">0</td>
+                        <td class="text-center" th:text="${standing.losses}">0</td>
+                        <td class="text-center" th:text="${standing.goalsFor}">0</td>
+                        <td class="text-center" th:text="${standing.goalsAgainst}">0</td>
+                        <td class="text-center" th:text="${standing.goalDifference}">0</td>
+                        <td class="text-center fw-bold" th:text="${standing.points}">0</td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(standings)}">
+                        <td class="text-center text-muted py-4" colspan="10">
+                            <i class="fas fa-info-circle fa-2x mb-2"></i><br>
+                            Aucune donnée de classement disponible pour le moment.
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Résultats par journée -->
+    <div class="card mb-3" th:each="day : ${days}">
+        <div class="card-header bg-primary text-white">
+            <i class="fas fa-calendar-day"></i> Journée <span th:text="${day.number}">1</span>
+        </div>
+        <div class="card-body">
+            <div class="list-group">
+                <div class="list-group-item d-flex justify-content-between align-items-center"
+                     th:each="game : ${day.games}">
+                    <div>
+                        <span th:text="${game.team1.name}">Équipe A</span>
+                        <strong th:text="${game.team1points}">1</strong>
+                        -
+                        <strong th:text="${game.team2points}">2</strong>
+                        <span th:text="${game.team2.name}">Équipe B</span>
+                    </div>
+                    <div class="text-muted small">
+                        <i class="fas fa-clock"></i> Match joué
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

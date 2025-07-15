@@ -1,37 +1,76 @@
 package org.example.gestionchampionnatthymeleaf.controller;
 
 import jakarta.validation.Valid;
+import org.example.gestionchampionnatthymeleaf.dto.TeamStandingDTO;
 import org.example.gestionchampionnatthymeleaf.model.Championship;
+import org.example.gestionchampionnatthymeleaf.model.Day;
 import org.example.gestionchampionnatthymeleaf.service.ChampionshipService;
+import org.example.gestionchampionnatthymeleaf.service.DayService;
 import org.example.gestionchampionnatthymeleaf.service.TeamService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-@RequestMapping("/private/championships")
+
 @Controller
 public class ChampionshipController {
 
-    private ChampionshipService championshipService;
-    private TeamService teamService;
+    private final ChampionshipService championshipService;
+    private final TeamService teamService;
 
-    public ChampionshipController(ChampionshipService championshipService, TeamService teamService) {
+    private final DayService dayService;
+
+    public ChampionshipController(ChampionshipService championshipService, TeamService teamService, DayService dayService) {
         this.championshipService = championshipService;
         this.teamService = teamService;
+
+        this.dayService = dayService;
     }
 
-    @GetMapping
+    @GetMapping("public/championships")
     public String listChampionships(Model model) {
         List<Championship> championships = championshipService.getAllChampionships();
         model.addAttribute("championships", championships);
         return "public/championship_list";
     }
 
+    @GetMapping("public/championships/{id}/standings")
+    public String showStandings(@PathVariable Long id, Model model) {
+        Championship championship = championshipService.getChampionshipById(id);
+        model.addAttribute("championship", championship);
+        model.addAttribute("standings", championshipService.calculateStandings(id));
+        return "public/championship_standings";
+    }
 
-    @GetMapping("/new")
+
+    @GetMapping("public/championships/{id}/results")
+    public String showResults(@PathVariable Long id, Model model) {
+        Championship championship = championshipService.getChampionshipById(id);
+        List<Day> days = dayService.getAllDaybyChampionshipId(id);
+        List<TeamStandingDTO> standings = championshipService.calculateStandings(id);
+
+        model.addAttribute("championship", championship);
+        model.addAttribute("days", days);
+        model.addAttribute("standings", standings);
+
+        return "public/championship_results";
+    }
+
+    @GetMapping("/private/championships/{id}")
+    public String viewChampionshipDetails(@PathVariable Long id, Model model) {
+        Championship championship = championshipService.getChampionshipById(id);
+        model.addAttribute("championship", championship);
+        return "private/championship_details";
+    }
+
+
+    @GetMapping("private/championships/new")
     public String showChampionshipCreateForm(Model model) {
         model.addAttribute("championship", new Championship());
         model.addAttribute("allTeams", teamService.getAllTeams());
@@ -40,7 +79,7 @@ public class ChampionshipController {
     }
 
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("private/championships/edit/{id}")
     public String showChampionshipEditForm(@PathVariable Long id, Model model) {
         Championship championship = championshipService.getChampionshipById(id);
 
@@ -55,7 +94,7 @@ public class ChampionshipController {
     }
 
 
-    @PostMapping("/save")
+    @PostMapping("private/championships/save")
     public String saveChampionship(@Valid @ModelAttribute Championship championship,
                                    BindingResult bindingResult,
                                    Model model,
@@ -93,7 +132,7 @@ public class ChampionshipController {
         }
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("private/championships/delete/{id}")
     public String deleteTeam(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             championshipService.deleteChampionship(id);

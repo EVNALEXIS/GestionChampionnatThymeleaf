@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ajouter une journée</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="container mt-4">
+    <h3>Ajouter une journée</h3>
+
+    <form method="post"
+          novalidate th:action="@{/private/championships/{championshipId}/days(championshipId=${day.championship.id})}" th:object="${day}">
+        <!-- Champ caché ID si modification -->
+        <input th:field="*{id}" type="hidden"/>
+
+        <!-- Nom de la journée -->
+        <div class="mb-3">
+            <label class="form-label" for="name">Nom de la journée <span class="text-danger">*</span></label>
+            <input class="form-control" id="name" required th:field="*{number}" type="text"/>
+            <div class="invalid-feedback" th:errors="*{number}" th:if="${#fields.hasErrors('number')}"></div>
+        </div>
+
+
+        <!-- Boutons d'action -->
+        <div class="d-flex gap-2">
+            <button class="btn btn-primary" type="submit">
+                <i class="fas fa-check"></i> Enregistrer la journée
+            </button>
+            <a class="btn btn-secondary" href="/private/days">
+                <i class="bi bi-arrow-left"></i> Retour
+            </a>
+        </div>
+
+        <!-- Messages d'erreur / succès -->
+        <div class="alert alert-danger mt-3" role="alert" th:if="${errorMessage}">
+            <i class="bi bi-exclamation-triangle"></i> <span th:text="${errorMessage}"></span>
+        </div>
+        <div class="alert alert-success mt-3" role="alert" th:if="${successMessage}">
+            <i class="bi bi-check-circle"></i> <span th:text="${successMessage}"></span>
+        </div>
+    </form>
+</div>
+
+<!-- Bootstrap JS et FontAwesome -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script crossorigin="anonymous" src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>

@@ -1,12 +1,18 @@
 package org.example.gestionchampionnatthymeleaf.model;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+//@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"teams"})
+@EqualsAndHashCode(exclude = {"teams"})
 public class Country {
 
     @Id
@@ -16,6 +22,14 @@ public class Country {
     private String name;
     private String logo;
 
-    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "country")
     private List<Team> teams;
+
+    public Country(String name, String logo) {
+        this.name = name;
+        this.logo = logo;
+    }
+
+    public Country() {
+    }
 }

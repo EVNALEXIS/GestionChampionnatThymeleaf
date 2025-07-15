@@ -1,5 +1,6 @@
 package org.example.gestionchampionnatthymeleaf.service.impl;
 
+import org.example.gestionchampionnatthymeleaf.model.Championship;
 import org.example.gestionchampionnatthymeleaf.model.Team;
 import org.example.gestionchampionnatthymeleaf.repository.CountryRepository;
 import org.example.gestionchampionnatthymeleaf.repository.TeamRepository;
@@ -7,6 +8,7 @@ import org.example.gestionchampionnatthymeleaf.service.TeamService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class TeamServiceImpl implements TeamService {
 
@@ -19,8 +21,14 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team addTeam(Team team) {
+        if (team.getChampionships() != null) {
+            for (Championship champ : team.getChampionships()) {
+                champ.getTeams().add(team);
+            }
+        }
         return teamRepository.save(team);
     }
+
 
     @Override
     public Team getTeamById(Long id) {
@@ -35,7 +43,13 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public void deleteTeam(Long id) {
-        teamRepository.deleteById(id);
+        Team team = teamRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Team not found"));
+        for (Championship champ : team.getChampionships()) {
+            champ.getTeams().remove(team);
+        }
+        team.getChampionships().clear();
+        teamRepository.delete(team);
     }
 
 

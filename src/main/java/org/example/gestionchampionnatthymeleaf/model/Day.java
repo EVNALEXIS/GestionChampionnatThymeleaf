@@ -1,12 +1,19 @@
 package org.example.gestionchampionnatthymeleaf.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+//@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"games", "championship"})
+@EqualsAndHashCode(exclude = {"games", "championship"})
 public class Day {
 
     @Id
@@ -16,11 +23,21 @@ public class Day {
     @NotBlank(message = "Le numéro est obligatoire")
     private String number;
 
-    @OneToMany(mappedBy = "day",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "day", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Game> games;
 
     @ManyToOne
     @JoinColumn(name = "championship_id")
+    @JsonIgnore
     private Championship championship;
+
+    public Day(String number, Championship championship) {
+        this.number = number;
+        this.championship = championship;
+    }
+
+    public Day() {
+    }
 
 }

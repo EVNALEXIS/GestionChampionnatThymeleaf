@@ -1,64 +1,86 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title th:text="${pageTitle}">Gestion Championnat</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"/>
     <script>
         function toggleStadiumFields() {
             const useExisting = document.getElementById('stadiumExisting').checked;
+            const stadiumSelect = document.getElementById('stadiumSelect');
+            const stadiumName = document.getElementById('stadiumName');
+            const stadiumAddress = document.getElementById('stadiumaddress');
+            const stadiumCapacity = document.getElementById('stadiumCapacity');
+
             document.getElementById('existingStadiumDiv').style.display = useExisting ? 'block' : 'none';
             document.getElementById('newStadiumDiv').style.display = useExisting ? 'none' : 'block';
 
-            // Réinitialiser les champs non utilisés
             if (useExisting) {
-                document.getElementById('stadiumName').value = '';
-                document.getElementById('stadiumaddress').value = '';
-                document.getElementById('stadiumCapacity').value = '';
-                // Retirer les attributs required des champs nouveau stade
-                document.getElementById('stadiumName').removeAttribute('required');
-                document.getElementById('stadiumaddress').removeAttribute('required');
-                document.getElementById('stadiumCapacity').removeAttribute('required');
-                // Ajouter required au select existant
-                document.getElementById('stadiumSelect').setAttribute('required', 'required');
+                // Activer le champ select, désactiver les inputs
+                stadiumSelect.removeAttribute('disabled');
+                stadiumSelect.setAttribute('required', 'required');
+
+                stadiumName.value = '';
+                stadiumAddress.value = '';
+                stadiumCapacity.value = '';
+
+                stadiumName.setAttribute('disabled', 'disabled');
+                stadiumAddress.setAttribute('disabled', 'disabled');
+                stadiumCapacity.setAttribute('disabled', 'disabled');
+
+                stadiumName.removeAttribute('required');
+                stadiumAddress.removeAttribute('required');
+                stadiumCapacity.removeAttribute('required');
             } else {
-                document.getElementById('stadiumSelect').value = '';
-                // Retirer required du select
-                document.getElementById('stadiumSelect').removeAttribute('required');
-                // Ajouter required aux champs nouveau stade
-                document.getElementById('stadiumName').setAttribute('required', 'required');
-                document.getElementById('stadiumaddress').setAttribute('required', 'required');
-                document.getElementById('stadiumCapacity').setAttribute('required', 'required');
+                // Activer les inputs, désactiver le select
+                stadiumSelect.setAttribute('disabled', 'disabled');
+                stadiumSelect.removeAttribute('required');
+
+                stadiumName.removeAttribute('disabled');
+                stadiumAddress.removeAttribute('disabled');
+                stadiumCapacity.removeAttribute('disabled');
+
+                stadiumName.setAttribute('required', 'required');
+                stadiumAddress.setAttribute('required', 'required');
+                stadiumCapacity.setAttribute('required', 'required');
             }
         }
 
         function toggleCountryFields() {
             const useExisting = document.getElementById('countryExisting').checked;
+            const countrySelect = document.getElementById('countrySelect');
+            const countryName = document.getElementById('countryName');
+            const countryLogo = document.getElementById('countryLogo');
+
             document.getElementById('existingCountryDiv').style.display = useExisting ? 'block' : 'none';
             document.getElementById('newCountryDiv').style.display = useExisting ? 'none' : 'block';
 
-            // Réinitialiser les champs non utilisés
             if (useExisting) {
-                document.getElementById('countryName').value = '';
-                document.getElementById('countryLogo').value = '';
-                // Retirer required du nouveau pays
-                document.getElementById('countryName').removeAttribute('required');
-                // Ajouter required au select existant
-                document.getElementById('countrySelect').setAttribute('required', 'required');
+                countrySelect.removeAttribute('disabled');
+                countrySelect.setAttribute('required', 'required');
+
+                countryName.value = '';
+                countryLogo.value = '';
+                countryName.setAttribute('disabled', 'disabled');
+                countryLogo.setAttribute('disabled', 'disabled');
+
+                countryName.removeAttribute('required');
             } else {
-                document.getElementById('countrySelect').value = '';
-                // Retirer required du select
-                document.getElementById('countrySelect').removeAttribute('required');
-                // Ajouter required au nouveau pays
-                document.getElementById('countryName').setAttribute('required', 'required');
+                countrySelect.setAttribute('disabled', 'disabled');
+                countrySelect.removeAttribute('required');
+
+                countryName.removeAttribute('disabled');
+                countryLogo.removeAttribute('disabled');
+                countryName.setAttribute('required', 'required');
             }
         }
 
-        window.onload = function() {
+        window.onload = function () {
             toggleStadiumFields();
             toggleCountryFields();
         };
     </script>
+
 </head>
 <body>
 <!-- Navbar -->
@@ -68,75 +90,78 @@
 
     <h3 th:text="${pageTitle}">Formulaire équipe</h3>
 
-    <form th:action="@{/private/teams/save}" th:object="${team}" method="post" novalidate>
+    <form method="post" novalidate th:action="@{/private/teams/save}" th:object="${team}">
         <!-- Champ caché pour l'ID lors de la modification -->
-        <input type="hidden" th:field="*{id}" />
+        <input th:field="*{id}" type="hidden"/>
 
         <!-- Nom de l'équipe -->
         <div class="mb-3">
-            <label for="name" class="form-label">Nom de l'équipe <span class="text-danger">*</span></label>
-            <input type="text" th:field="*{name}" class="form-control" id="name" required />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            <label class="form-label" for="name">Nom de l'équipe <span class="text-danger">*</span></label>
+            <input class="form-control" id="name" required th:field="*{name}" type="text"/>
+            <div class="invalid-feedback" th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></div>
         </div>
 
         <!-- Date de création de l'équipe -->
         <div class="mb-3">
-            <label for="creationDate" class="form-label">Date de création de l'équipe <span class="text-danger">*</span></label>
-            <input type="date" th:field="*{creationDate}" class="form-control" id="creationDate" required />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('creationDate')}" th:errors="*{creationDate}"></div>
+            <label class="form-label" for="creationDate">Date de création de l'équipe <span class="text-danger">*</span></label>
+            <input class="form-control" id="creationDate" required th:field="*{creationDate}" type="date"/>
+            <div class="invalid-feedback" th:errors="*{creationDate}"
+                 th:if="${#fields.hasErrors('creationDate')}"></div>
         </div>
 
         <!-- Logo de l'équipe -->
         <div class="mb-3">
-            <label for="logo" class="form-label">Logo de l'équipe (URL)</label>
-            <input type="url" th:field="*{logo}" class="form-control" id="logo" placeholder="https://example.com/logo.png" />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('logo')}" th:errors="*{logo}"></div>
+            <label class="form-label" for="logo">Logo de l'équipe (URL)</label>
+            <input class="form-control" id="logo" placeholder="https://example.com/logo.png" th:field="*{logo}"
+                   type="url"/>
+            <div class="invalid-feedback" th:errors="*{logo}" th:if="${#fields.hasErrors('logo')}"></div>
         </div>
 
         <!-- Président de l'équipe -->
         <div class="mb-3">
-            <label for="president" class="form-label">Président de l'équipe</label>
-            <input type="text" th:field="*{president}" class="form-control" id="president" />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('president')}" th:errors="*{president}"></div>
+            <label class="form-label" for="president">Président de l'équipe</label>
+            <input class="form-control" id="president" th:field="*{president}" type="text"/>
+            <div class="invalid-feedback" th:errors="*{president}" th:if="${#fields.hasErrors('president')}"></div>
         </div>
 
         <!-- Status de l'équipe -->
         <div class="mb-3">
-            <label for="status" class="form-label">Statut de l'équipe <span class="text-danger">*</span></label>
-            <select th:field="*{status}" class="form-select" id="status" required>
+            <label class="form-label" for="status">Statut de l'équipe <span class="text-danger">*</span></label>
+            <select class="form-select" id="status" required th:field="*{status}">
                 <option value="">-- Sélectionner un statut --</option>
                 <option value="ACTIVE">Active</option>
                 <option value="INACTIVE">Inactive</option>
             </select>
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></div>
+            <div class="invalid-feedback" th:errors="*{status}" th:if="${#fields.hasErrors('status')}"></div>
         </div>
 
         <!-- Siege de l'équipe -->
         <div class="mb-3">
-            <label for="siege" class="form-label">Siège de l'équipe</label>
-            <input type="text" th:field="*{siege}" class="form-control" id="siege" />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('siege')}" th:errors="*{siege}"></div>
+            <label class="form-label" for="siege">Siège de l'équipe</label>
+            <input class="form-control" id="siege" th:field="*{siege}" type="text"/>
+            <div class="invalid-feedback" th:errors="*{siege}" th:if="${#fields.hasErrors('siege')}"></div>
         </div>
 
         <!-- phone de l'équipe -->
         <div class="mb-3">
-            <label for="phone" class="form-label">Téléphone de l'équipe</label>
-            <input type="tel" th:field="*{phone}" class="form-control" id="phone" />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+            <label class="form-label" for="phone">Téléphone de l'équipe</label>
+            <input class="form-control" id="phone" th:field="*{phone}" type="tel"/>
+            <div class="invalid-feedback" th:errors="*{phone}" th:if="${#fields.hasErrors('phone')}"></div>
         </div>
 
         <!-- site web de l'équipe -->
         <div class="mb-3">
-            <label for="website" class="form-label">Site web de l'équipe</label>
-            <input type="url" th:field="*{website}" class="form-control" id="website" placeholder="https://example.com" />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('website')}" th:errors="*{website}"></div>
+            <label class="form-label" for="website">Site web de l'équipe</label>
+            <input class="form-control" id="website" placeholder="https://example.com" th:field="*{website}"
+                   type="url"/>
+            <div class="invalid-feedback" th:errors="*{website}" th:if="${#fields.hasErrors('website')}"></div>
         </div>
 
         <!-- Entraîneur -->
         <div class="mb-3">
-            <label for="coach" class="form-label">Entraîneur</label>
-            <input type="text" th:field="*{coach}" class="form-control" id="coach" />
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('coach')}" th:errors="*{coach}"></div>
+            <label class="form-label" for="coach">Entraîneur</label>
+            <input class="form-control" id="coach" th:field="*{coach}" type="text"/>
+            <div class="invalid-feedback" th:errors="*{coach}" th:if="${#fields.hasErrors('coach')}"></div>
         </div>
 
         <!-- Choix du stade -->
@@ -144,47 +169,53 @@
             <legend class="fw-bold">Stade <span class="text-danger">*</span></legend>
 
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="stadiumExisting" name="stadiumChoice" value="existing"
-                       onclick="toggleStadiumFields()"
-                       th:checked="${team.stadium != null and team.stadium.id != null}" />
+                <input class="form-check-input" id="stadiumExisting" name="stadiumChoice" onclick="toggleStadiumFields()" th:checked="${team.stadium != null and team.stadium.id != null}"
+                       type="radio"
+                       value="existing"/>
                 <label class="form-check-label" for="stadiumExisting">Sélectionner un stade existant</label>
             </div>
 
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="stadiumNew" name="stadiumChoice" value="new"
-                       onclick="toggleStadiumFields()"
-                       th:checked="${team.stadium == null or team.stadium.id == null}" />
+                <input class="form-check-input" id="stadiumNew" name="stadiumChoice" onclick="toggleStadiumFields()" th:checked="${team.stadium == null or team.stadium.id == null}"
+                       type="radio"
+                       value="new"/>
                 <label class="form-check-label" for="stadiumNew">Créer un nouveau stade</label>
             </div>
 
             <!-- Select stade existant -->
-            <div id="existingStadiumDiv" class="mt-3">
-                <label for="stadiumSelect" class="form-label">Stades disponibles <span class="text-danger">*</span></label>
-                <select name="existingStadiumId" class="form-select" id="stadiumSelect">
+            <div class="mt-3" id="existingStadiumDiv">
+                <label class="form-label" for="stadiumSelect">Stades disponibles <span
+                        class="text-danger">*</span></label>
+                <select class="form-select" id="stadiumSelect" name="existingStadiumId">
                     <option value="">-- Sélectionner un stade --</option>
                     <option th:each="stad : ${allStadiums}"
-                            th:value="${stad.id}"
+                            th:selected="${team.stadium != null and team.stadium.id == stad.id}"
                             th:text="${stad.name + ' (' + stad.capacity + ' places)'}"
-                            th:selected="${team.stadium != null and team.stadium.id == stad.id}"></option>
+                            th:value="${stad.id}"></option>
                 </select>
             </div>
 
             <!-- Nouveau stade -->
-            <div id="newStadiumDiv" style="display:none;" class="mt-3">
+            <div class="mt-3" id="newStadiumDiv" style="display:none;">
                 <div class="mb-3">
-                    <label for="stadiumName" class="form-label">Nom du nouveau stade <span class="text-danger">*</span></label>
-                    <input type="text" th:field="*{stadium.name}" class="form-control" id="stadiumName" />
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('stadium.name')}" th:errors="*{stadium.name}"></div>
+                    <label class="form-label" for="stadiumName">Nom du nouveau stade <span class="text-danger">*</span></label>
+                    <input class="form-control" id="stadiumName" th:field="*{stadium.name}" type="text"/>
+                    <div class="invalid-feedback" th:errors="*{stadium.name}"
+                         th:if="${#fields.hasErrors('stadium.name')}"></div>
                 </div>
                 <div class="mb-3">
-                    <label for="stadiumaddress" class="form-label">Adresse du nouveau stade <span class="text-danger">*</span></label>
-                    <input type="text" th:field="*{stadium.address}" class="form-control" id="stadiumaddress" />
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('stadium.address')}" th:errors="*{stadium.address}"></div>
+                    <label class="form-label" for="stadiumaddress">Adresse du nouveau stade <span
+                            class="text-danger">*</span></label>
+                    <input class="form-control" id="stadiumaddress" th:field="*{stadium.address}" type="text"/>
+                    <div class="invalid-feedback" th:errors="*{stadium.address}"
+                         th:if="${#fields.hasErrors('stadium.address')}"></div>
                 </div>
                 <div class="mb-3">
-                    <label for="stadiumCapacity" class="form-label">Capacité du stade <span class="text-danger">*</span></label>
-                    <input type="number" th:field="*{stadium.capacity}" class="form-control" id="stadiumCapacity" min="1" />
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('stadium.capacity')}" th:errors="*{stadium.capacity}"></div>
+                    <label class="form-label" for="stadiumCapacity">Capacité du stade <span class="text-danger">*</span></label>
+                    <input class="form-control" id="stadiumCapacity" min="1" th:field="*{stadium.capacity}"
+                           type="number"/>
+                    <div class="invalid-feedback" th:errors="*{stadium.capacity}"
+                         th:if="${#fields.hasErrors('stadium.capacity')}"></div>
                 </div>
             </div>
         </fieldset>
@@ -194,73 +225,79 @@
             <legend class="fw-bold">Pays <span class="text-danger">*</span></legend>
 
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="countryExisting" name="countryChoice" value="existing"
-                       onclick="toggleCountryFields()"
-                       th:checked="${team.country != null and team.country.id != null}" />
+                <input class="form-check-input" id="countryExisting" name="countryChoice" onclick="toggleCountryFields()" th:checked="${team.country != null and team.country.id != null}"
+                       type="radio"
+                       value="existing"/>
                 <label class="form-check-label" for="countryExisting">Sélectionner un pays existant</label>
             </div>
 
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="countryNew" name="countryChoice" value="new"
-                       onclick="toggleCountryFields()"
-                       th:checked="${team.country == null or team.country.id == null}" />
+                <input class="form-check-input" id="countryNew" name="countryChoice" onclick="toggleCountryFields()" th:checked="${team.country == null or team.country.id == null}"
+                       type="radio"
+                       value="new"/>
                 <label class="form-check-label" for="countryNew">Créer un nouveau pays</label>
             </div>
 
             <!-- Select pays existant -->
-            <div id="existingCountryDiv" class="mt-3">
-                <label for="countrySelect" class="form-label">Pays disponibles <span class="text-danger">*</span></label>
-                <select name="existingCountryId" class="form-select" id="countrySelect">
+            <div class="mt-3" id="existingCountryDiv">
+                <label class="form-label" for="countrySelect">Pays disponibles <span
+                        class="text-danger">*</span></label>
+                <select class="form-select" id="countrySelect" name="existingCountryId">
                     <option value="">-- Sélectionner un pays --</option>
                     <option th:each="c : ${allCountries}"
-                            th:value="${c.id}"
+                            th:selected="${team.country != null and team.country.id == c.id}"
                             th:text="${c.name}"
-                            th:selected="${team.country != null and team.country.id == c.id}"></option>
+                            th:value="${c.id}"></option>
                 </select>
             </div>
 
             <!-- Nouveau pays -->
-            <div id="newCountryDiv" style="display:none;" class="mt-3">
+            <div class="mt-3" id="newCountryDiv" style="display:none;">
                 <div class="mb-3">
-                    <label for="countryName" class="form-label">Nom du nouveau pays <span class="text-danger">*</span></label>
-                    <input type="text" th:field="*{country.name}" class="form-control" id="countryName" />
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('country.name')}" th:errors="*{country.name}"></div>
+                    <label class="form-label" for="countryName">Nom du nouveau pays <span
+                            class="text-danger">*</span></label>
+                    <input class="form-control" id="countryName" th:field="*{country.name}" type="text"/>
+                    <div class="invalid-feedback" th:errors="*{country.name}"
+                         th:if="${#fields.hasErrors('country.name')}"></div>
                 </div>
                 <div class="mb-3">
-                    <label for="countryLogo" class="form-label">Drapeau du pays (URL)</label>
-                    <input type="url" th:field="*{country.logo}" class="form-control" id="countryLogo" placeholder="https://example.com/flag.png" />
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('country.logo')}" th:errors="*{country.logo}"></div>
+                    <label class="form-label" for="countryLogo">Drapeau du pays (URL)</label>
+                    <input class="form-control" id="countryLogo" placeholder="https://example.com/flag.png" th:field="*{country.logo}"
+                           type="url"/>
+                    <div class="invalid-feedback" th:errors="*{country.logo}"
+                         th:if="${#fields.hasErrors('country.logo')}"></div>
                 </div>
             </div>
         </fieldset>
 
         <!-- Championnats (multi-select) -->
         <div class="mb-3">
-            <label for="championships" class="form-label">Championnats (optionnel)</label>
-            <select th:field="*{championships}" class="form-select" id="championships" multiple size="5">
+            <label class="form-label" for="championships">Championnats (optionnel)</label>
+            <select class="form-select" id="championships" multiple size="5" th:field="*{championships}">
                 <option th:each="champ : ${allChampionships}"
-                        th:value="${champ.id}"
+                        th:selected="${team.championships != null and team.championships.contains(champ)}"
                         th:text="${champ.name}"
-                        th:selected="${team.championships != null and team.championships.contains(champ)}"></option>
+                        th:value="${champ.id}"></option>
             </select>
-            <small class="form-text text-muted">Maintenez Ctrl (Cmd sur Mac) enfoncé et cliquez pour sélectionner plusieurs championnats.</small>
+            <small class="form-text text-muted">Maintenez Ctrl (Cmd sur Mac) enfoncé et cliquez pour sélectionner
+                plusieurs championnats.</small>
         </div>
 
         <!-- Boutons d'action -->
         <div class="d-flex gap-2">
-            <button type="submit" class="btn btn-primary">
+            <button class="btn btn-primary" type="submit">
                 <i class="bi bi-save"></i> Enregistrer
             </button>
-            <a href="/private/teams" class="btn btn-secondary">
+            <a class="btn btn-secondary" href="/private/teams">
                 <i class="bi bi-arrow-left"></i> Retour
             </a>
         </div>
 
         <!-- Messages d'erreur et de succès -->
-        <div th:if="${errorMessage}" class="alert alert-danger mt-3" role="alert">
+        <div class="alert alert-danger mt-3" role="alert" th:if="${errorMessage}">
             <i class="bi bi-exclamation-triangle"></i> <span th:text="${errorMessage}"></span>
         </div>
-        <div th:if="${successMessage}" class="alert alert-success mt-3" role="alert">
+        <div class="alert alert-success mt-3" role="alert" th:if="${successMessage}">
             <i class="bi bi-check-circle"></i> <span th:text="${successMessage}"></span>
         </div>
     </form>

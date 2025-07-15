@@ -1,11 +1,9 @@
 package org.example.gestionchampionnatthymeleaf.service.impl;
 
 import org.example.gestionchampionnatthymeleaf.model.Day;
-import org.example.gestionchampionnatthymeleaf.model.Game;
 import org.example.gestionchampionnatthymeleaf.repository.DayRepository;
 import org.example.gestionchampionnatthymeleaf.repository.GameRepository;
 import org.example.gestionchampionnatthymeleaf.service.DayService;
-import org.example.gestionchampionnatthymeleaf.service.GameService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,7 +37,9 @@ public class DayServiceImpl implements DayService {
     }
 
     @Override
-    public List<Game> getAllGamesByDay(Day day) {
-        return gameRepository.findByDay(day);
+    public List<Day> getAllDaybyChampionshipId(Long championshipId) {
+        return dayRepository.findByChampionshipId(championshipId);
     }
+
+
 }

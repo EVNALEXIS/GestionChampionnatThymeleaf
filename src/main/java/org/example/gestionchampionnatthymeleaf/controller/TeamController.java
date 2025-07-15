@@ -14,11 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.HashSet;
+import java.util.Set;
 
-@RequestMapping("/private/teams")
 
 @Controller
 public class TeamController {
@@ -36,13 +35,13 @@ public class TeamController {
         this.stadiumService = stadiumService;
     }
 
-    @GetMapping
+    @GetMapping("/public/teams")
     public String listTeams(Model model) {
         model.addAttribute("teams", teamService.getAllTeams());
-        return "private/teams_list";
+        return "public/teams_list";
     }
 
-    @GetMapping("/new")
+    @GetMapping("/private/teams/new")
     public String showTeamCreateForm(Model model) {
         Team team = new Team();
         team.setStadium(new Stadium());
@@ -52,7 +51,15 @@ public class TeamController {
         return "private/team_form";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/public/teams/{id}")
+    public String showTeamDetails(@PathVariable Long id, Model model) {
+        Team team = teamService.getTeamById(id);
+        model.addAttribute("team", team);
+        return "public/details";  // nom de la vue Thymeleaf
+    }
+
+
+    @GetMapping("/private/teams/edit/{id}")
     public String showTeamEditForm(@PathVariable Long id, Model model) {
         Team team = teamService.getTeamById(id);
         if (team == null) {
@@ -66,7 +73,7 @@ public class TeamController {
         return "private/team_form"; // <-- corriger ici aussi
     }
 
-    @PostMapping("/save")
+    @PostMapping("/private/teams/save")
     public String saveTeam(@Valid @ModelAttribute Team team,
                            BindingResult bindingResult,
                            Model model,
@@ -155,7 +162,7 @@ public class TeamController {
             }
 
             // === Gestion des championnats ===
-            List<Championship> selected = new ArrayList<>();
+            Set<Championship> selected = new HashSet<>();
             if (team.getChampionships() != null) {
                 for (Championship champ : team.getChampionships()) {
                     if (champ.getId() != null) {
@@ -166,6 +173,12 @@ public class TeamController {
             }
             team.setChampionships(selected);
             System.out.println(">>> Championnats associés : " + selected.size());
+            System.out.println(">>> Championship received from form: " + team.getChampionships());
+            if (team.getChampionships() != null) {
+                for (Championship champ : team.getChampionships()) {
+                    System.out.println(">>> Championship from form: id=" + champ.getId() + ", name=" + champ.getName());
+                }
+            }
 
             // === Sauvegarde ===
             Team saved = teamService.addTeam(team);
@@ -185,7 +198,7 @@ public class TeamController {
     }
 
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/private/teams/delete/{id}")
     public String deleteTeam(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             Team team = teamService.getTeamById(id);
@@ -201,15 +214,6 @@ public class TeamController {
         return "redirect:/private/teams";
     }
 
-    @GetMapping("/{id}")
-    public String viewTeam(@PathVariable Long id, Model model) {
-        Team team = teamService.getTeamById(id);
-        if (team == null) {
-            return "redirect:/private/teams?error=notfound";
-        }
-        model.addAttribute("team", team);
-        return "private/team_view";
-    }
 
     private void populateModel(Model model, Team team) {
         model.addAttribute("team", team);
