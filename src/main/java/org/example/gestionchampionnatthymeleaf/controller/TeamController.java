@@ -55,7 +55,7 @@ public class TeamController {
     public String showTeamDetails(@PathVariable Long id, Model model) {
         Team team = teamService.getTeamById(id);
         model.addAttribute("team", team);
-        return "public/details";  // nom de la vue Thymeleaf
+        return "public/team_details";  // nom de la vue Thymeleaf
     }
 
 
@@ -186,7 +186,7 @@ public class TeamController {
 
             redirectAttributes.addFlashAttribute("successMessage", (team.getId() != null)
                     ? "Équipe modifiée avec succès !" : "Équipe créée avec succès !");
-            return "redirect:/private/teams";
+            return "redirect:/public/teams";
 
         } catch (Exception e) {
             System.out.println(">>> ERREUR lors de la sauvegarde : " + e.getMessage());

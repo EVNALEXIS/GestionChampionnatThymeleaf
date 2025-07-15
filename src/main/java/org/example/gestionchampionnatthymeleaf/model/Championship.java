@@ -49,7 +49,8 @@ public class Championship {
     @ManyToMany
     @JoinTable(name = "championship_team",
             joinColumns = @JoinColumn(name = "championship_id"),
-            inverseJoinColumns = @JoinColumn(name = "team_id"))
+            inverseJoinColumns = @JoinColumn(name = "team_id")
+    )
     private Set<Team> teams;
 
     public Championship(String name, String logo, LocalDate endDate, LocalDate startDate, int wonPoint, int lostPoint, int drawPoint, String typeRanking) {

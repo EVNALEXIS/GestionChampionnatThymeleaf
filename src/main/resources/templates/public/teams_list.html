@@ -100,7 +100,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="team : ${teams}">
+                    <tr th:each="team : ${teams}"
+                        th:onclick="'window.location.href=\'/public/teams/' + ${team.id} + '\';'"
+                        style="cursor:pointer;">
                         <!-- Nom équipe -->
                         <td>
                             <div class="small">

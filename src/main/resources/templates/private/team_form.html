@@ -129,8 +129,9 @@
             <label class="form-label" for="status">Statut de l'équipe <span class="text-danger">*</span></label>
             <select class="form-select" id="status" required th:field="*{status}">
                 <option value="">-- Sélectionner un statut --</option>
-                <option value="ACTIVE">Active</option>
-                <option value="INACTIVE">Inactive</option>
+                <option value="Pro">Pro</option>
+                <option value="Semi-Pro">Semi-Pro</option>
+                <option value="Amateur">Amateur</option>
             </select>
             <div class="invalid-feedback" th:errors="*{status}" th:if="${#fields.hasErrors('status')}"></div>
         </div>
