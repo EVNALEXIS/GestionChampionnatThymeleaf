@@ -13,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
 import java.util.Set;
 
 @Controller
@@ -39,6 +38,7 @@ public class GameController {
         model.addAttribute("teams", day.getChampionship().getTeams());
         return "private/game_form";
     }
+
     @GetMapping("/games/edit/{id}")
     public String showGameEditForm(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         Game game = gameService.getGameById(id);
@@ -98,7 +98,6 @@ public class GameController {
         game.setDay(day);
 
         if (game.getId() != null) {
-            // Cas édition : on récupère l'existant et on le met à jour
             Game existingGame = gameService.getGameById(game.getId());
             if (existingGame != null) {
                 existingGame.setTeam1(team1);
@@ -112,7 +111,6 @@ public class GameController {
                 redirectAttributes.addFlashAttribute("errorMessage", "Match à éditer introuvable");
             }
         } else {
-            // Cas ajout
             gameService.addGame(game);
             redirectAttributes.addFlashAttribute("successMessage", "Match créé avec succès !");
         }
@@ -135,7 +133,6 @@ public class GameController {
             redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la suppression : " + e.getMessage());
         }
 
-        // Redirige vers le championnat associé au match (si possible)
         Long championshipId = (game != null && game.getDay() != null && game.getDay().getChampionship() != null)
                 ? game.getDay().getChampionship().getId()
                 : null;

@@ -2,7 +2,6 @@ package org.example.gestionchampionnatthymeleaf.service.impl;
 
 
 import org.example.gestionchampionnatthymeleaf.model.Day;
-
 import org.example.gestionchampionnatthymeleaf.repository.DayRepository;
 import org.example.gestionchampionnatthymeleaf.service.DayService;
 import org.springframework.stereotype.Service;
@@ -36,8 +35,6 @@ public class DayServiceImpl implements DayService {
     public List<Day> getAllDaybyChampionshipId(Long championshipId) {
         return dayRepository.findByChampionshipId(championshipId);
     }
-
-
 
 
 }

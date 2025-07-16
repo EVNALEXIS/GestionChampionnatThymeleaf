@@ -101,13 +101,11 @@ public class ChampionshipController {
 
         try {
             if (championship.getId() != null) {
-                // 🔁 Mise à jour
                 Championship existingCHampionship = championshipService.getChampionshipById(championship.getId());
                 if (existingCHampionship == null) {
                     throw new RuntimeException("Championnat non trouvé avec ID: " + championship.getId());
                 }
 
-                // 📝 Mise à jour des champs simples
                 existingCHampionship.setName(championship.getName());
                 existingCHampionship.setLogo(championship.getLogo());
                 existingCHampionship.setLostPoint(championship.getLostPoint());
@@ -117,8 +115,6 @@ public class ChampionshipController {
                 existingCHampionship.setEndDate(championship.getEndDate());
                 existingCHampionship.setTypeRanking(championship.getTypeRanking());
 
-
-                // 🔄 Mise à jour des équipes
                 if (championship.getTeams() != null) {
                     existingCHampionship.getTeams().clear();
                     existingCHampionship.getTeams().addAll(championship.getTeams());
@@ -129,7 +125,6 @@ public class ChampionshipController {
                 redirectAttributes.addFlashAttribute("successMessage",
                         "Championnat '" + existingCHampionship.getName() + "' modifié avec succès !");
             } else {
-                // 🆕 Création
                 championshipService.addChampionship(championship);
                 redirectAttributes.addFlashAttribute("successMessage",
                         "Championnat '" + championship.getName() + "' créé avec succès !");
