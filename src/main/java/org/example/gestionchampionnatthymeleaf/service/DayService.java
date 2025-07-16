@@ -11,4 +11,5 @@ public interface DayService {
 
     List<Day> getAllDaybyChampionshipId(Long championshipId);
 
+
 }

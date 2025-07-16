@@ -32,4 +32,6 @@ public class User {
         this.password = password;
         this.creationDate = creationDate;
     }
+
+
 }

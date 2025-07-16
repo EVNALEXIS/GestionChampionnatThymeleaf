@@ -28,8 +28,9 @@
             <button class="btn btn-primary" type="submit">
                 <i class="fas fa-check"></i> Enregistrer la journée
             </button>
-            <a class="btn btn-secondary" href="/private/days">
-                <i class="bi bi-arrow-left"></i> Retour
+            <a class="btn btn-secondary"
+               th:href="@{/private/championships/{championshipId}(championshipId=${day.championship.id})}">
+                Retour au championnat
             </a>
         </div>
 

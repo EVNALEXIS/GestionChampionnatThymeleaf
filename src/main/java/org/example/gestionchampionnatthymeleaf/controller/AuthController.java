@@ -59,8 +59,8 @@ public class AuthController {
         return "private/users";
     }
 
-    @GetMapping("/public/login")
+    @GetMapping("/login")
     public String login() {
-        return "public/login";
+        return "login";
     }
 }

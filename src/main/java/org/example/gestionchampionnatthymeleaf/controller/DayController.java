@@ -39,4 +39,7 @@ public class DayController {
         return "redirect:/private/championships/" + championshipId;
 
     }
+
+
+
 }

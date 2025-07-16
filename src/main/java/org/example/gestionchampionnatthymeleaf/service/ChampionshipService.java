@@ -18,4 +18,5 @@ public interface ChampionshipService {
     List<TeamStandingDTO> calculateStandings(Long championshipId);
 
 
+    void removeDayFromChampionship(Long championshipId, Long dayId);
 }

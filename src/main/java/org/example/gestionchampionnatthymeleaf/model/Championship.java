@@ -43,7 +43,7 @@ public class Championship {
     @NotBlank(message = "Le type de classement est obligatoire")
     private String typeRanking;
 
-    @OneToMany(mappedBy = "championship", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "championship", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<Day> days;
 
     @ManyToMany

@@ -23,7 +23,7 @@ public class Day {
     @NotBlank(message = "Le numéro est obligatoire")
     private String number;
 
-    @OneToMany(mappedBy = "day", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "day", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     @JsonIgnore
     private List<Game> games;
 

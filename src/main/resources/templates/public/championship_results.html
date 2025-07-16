@@ -53,7 +53,10 @@
                     <tbody>
                     <tr th:each="standing, iterStat : ${standings}">
                         <td th:text="${iterStat.index + 1}">1</td>
-                        <td th:text="${standing.team.name}">Équipe</td>
+                        <td>
+                            <img th:src="${standing.team.logo}" alt="Logo" class="team-logo me-2" style="height: 30px; vertical-align: middle;"/>
+                            <span th:text="${standing.team.name}">Nom Équipe</span>
+                        </td>
                         <td class="text-center" th:text="${standing.played}">0</td>
                         <td class="text-center" th:text="${standing.wins}">0</td>
                         <td class="text-center" th:text="${standing.draws}">0</td>

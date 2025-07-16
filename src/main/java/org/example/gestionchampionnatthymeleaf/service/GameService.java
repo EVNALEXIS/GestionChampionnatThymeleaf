@@ -6,4 +6,8 @@ public interface GameService {
 
     void addGame(Game game);
 
+    Game getGameById(Long id);
+
+    void deleteGame(Long id);
+
 }

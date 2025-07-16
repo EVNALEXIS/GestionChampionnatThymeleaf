@@ -9,6 +9,7 @@ import org.example.gestionchampionnatthymeleaf.repository.ChampionshipRepository
 import org.example.gestionchampionnatthymeleaf.service.ChampionshipService;
 import org.example.gestionchampionnatthymeleaf.service.DayService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -86,6 +87,21 @@ public class ChampionshipServiceImpl implements ChampionshipService {
                 .thenComparing(dto -> dto.getTeam().getName()));
 
         return standings;
+    }
+
+    @Override
+    @Transactional
+    public void removeDayFromChampionship(Long championshipId, Long dayId) {
+        Championship championship = championshipRepository.findById(championshipId)
+                .orElseThrow(() -> new RuntimeException("Championnat introuvable"));
+
+        Day dayToRemove = championship.getDays().stream()
+                .filter(d -> d.getId().equals(dayId))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Journée introuvable"));
+
+        championship.getDays().remove(dayToRemove);
+        championshipRepository.save(championship);
     }
 
 }

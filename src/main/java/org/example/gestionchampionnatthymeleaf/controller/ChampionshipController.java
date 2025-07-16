@@ -40,14 +40,6 @@ public class ChampionshipController {
         return "public/championship_list";
     }
 
-    @GetMapping("public/championships/{id}/standings")
-    public String showStandings(@PathVariable Long id, Model model) {
-        Championship championship = championshipService.getChampionshipById(id);
-        model.addAttribute("championship", championship);
-        model.addAttribute("standings", championshipService.calculateStandings(id));
-        return "public/championship_standings";
-    }
-
 
     @GetMapping("public/championships/{id}/results")
     public String showResults(@PathVariable Long id, Model model) {
@@ -100,7 +92,6 @@ public class ChampionshipController {
                                    Model model,
                                    RedirectAttributes redirectAttributes) {
 
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("allTeams", teamService.getAllTeams());
             model.addAttribute("pageTitle",
@@ -110,12 +101,35 @@ public class ChampionshipController {
 
         try {
             if (championship.getId() != null) {
-                // MODIFICATION - l'ID existe
-                championshipService.addChampionship(championship); // Votre méthode existante
+                // 🔁 Mise à jour
+                Championship existingCHampionship = championshipService.getChampionshipById(championship.getId());
+                if (existingCHampionship == null) {
+                    throw new RuntimeException("Championnat non trouvé avec ID: " + championship.getId());
+                }
+
+                // 📝 Mise à jour des champs simples
+                existingCHampionship.setName(championship.getName());
+                existingCHampionship.setLogo(championship.getLogo());
+                existingCHampionship.setLostPoint(championship.getLostPoint());
+                existingCHampionship.setWonPoint(championship.getWonPoint());
+                existingCHampionship.setDrawPoint(championship.getDrawPoint());
+                existingCHampionship.setStartDate(championship.getStartDate());
+                existingCHampionship.setEndDate(championship.getEndDate());
+                existingCHampionship.setTypeRanking(championship.getTypeRanking());
+
+
+                // 🔄 Mise à jour des équipes
+                if (championship.getTeams() != null) {
+                    existingCHampionship.getTeams().clear();
+                    existingCHampionship.getTeams().addAll(championship.getTeams());
+                }
+
+                championshipService.addChampionship(existingCHampionship);
+
                 redirectAttributes.addFlashAttribute("successMessage",
-                        "Championnat '" + championship.getName() + "' modifié avec succès !");
+                        "Championnat '" + existingCHampionship.getName() + "' modifié avec succès !");
             } else {
-                // CRÉATION - pas d'ID
+                // 🆕 Création
                 championshipService.addChampionship(championship);
                 redirectAttributes.addFlashAttribute("successMessage",
                         "Championnat '" + championship.getName() + "' créé avec succès !");
@@ -141,6 +155,12 @@ public class ChampionshipController {
             redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la suppression : " + e.getMessage());
         }
         return "redirect:/public/championships";
+    }
+
+    @GetMapping("private/championships/{championshipId}/days/{dayId}/delete")
+    public String deleteDay(@PathVariable Long championshipId, @PathVariable Long dayId) {
+        championshipService.removeDayFromChampionship(championshipId, dayId);
+        return "redirect:/private/championships/" + championshipId;
     }
 
 }

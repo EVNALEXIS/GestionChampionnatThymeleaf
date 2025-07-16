@@ -55,7 +55,7 @@ public class TeamController {
     public String showTeamDetails(@PathVariable Long id, Model model) {
         Team team = teamService.getTeamById(id);
         model.addAttribute("team", team);
-        return "public/team_details";  // nom de la vue Thymeleaf
+        return "public/team_details";
     }
 
 
@@ -70,7 +70,7 @@ public class TeamController {
         if (team.getCountry() == null) team.setCountry(new Country());
 
         populateModel(model, team);
-        return "private/team_form"; // <-- corriger ici aussi
+        return "private/team_form";
     }
 
     @PostMapping("/private/teams/save")

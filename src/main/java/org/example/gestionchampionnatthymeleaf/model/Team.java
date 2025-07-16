@@ -53,8 +53,7 @@ public class Team {
     @JsonIgnore
     private Country country;
 
-    @ManyToMany(mappedBy = "teams",
-            cascade = {CascadeType.MERGE})
+    @ManyToMany(mappedBy = "teams")
     @JsonIgnore
     private Set<Championship> championships;
 

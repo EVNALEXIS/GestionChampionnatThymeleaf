@@ -28,40 +28,43 @@ public class SpringSecurityConfig {
         return config.getAuthenticationManager();
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth -> auth
-//                .requestMatchers("/", "/index", "/register/**", "/public/**","/error").permitAll()
-//                .requestMatchers("/private/**").authenticated())
-//                .formLogin(form -> form
-//                        .loginPage("/public/login")
-//                        .loginProcessingUrl("/login")
-//                        .defaultSuccessUrl("/private/users", true)
-//                        .permitAll()
-//                )
-//                .logout(logout -> logout
-//                        .logoutUrl("/logout")
-//                        .logoutSuccessUrl("/public/login?logout")
-//                        .invalidateHttpSession(true)
-//                        .clearAuthentication(true)
-//                        .permitAll()
-//                );
-//
-//        return http.build();
-//    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // désactive la protection CSRF pour les tests
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // autorise toutes les requêtes
+                        .requestMatchers("/", "/index", "/register/**", "/public/**", "/error").permitAll()
+                        .requestMatchers("/private/**").authenticated()
+                        .anyRequest().permitAll()
                 )
-                .formLogin(AbstractHttpConfigurer::disable) // désactive complètement la page de login
-                .logout(AbstractHttpConfigurer::disable); // désactive logout (facultatif)
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/private/users", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/public/login?logout")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .permitAll()
+                );
 
         return http.build();
     }
 }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(AbstractHttpConfigurer::disable) // désactive la protection CSRF pour les tests
+//                .authorizeHttpRequests(auth -> auth
+//                        .anyRequest().permitAll() // autorise toutes les requêtes
+//                )
+//                .formLogin(AbstractHttpConfigurer::disable) // désactive complètement la page de login
+//                .logout(AbstractHttpConfigurer::disable); // désactive logout (facultatif)
+//
+//        return http.build();
+//    }
+

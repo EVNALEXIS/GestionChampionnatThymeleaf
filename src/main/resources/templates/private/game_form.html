@@ -2,27 +2,35 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Ajouter un match</title>
+    <title th:text="${pageTitle}">Gestion Match</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
 </head>
 <body>
-
 <!-- Navbar -->
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container mt-4">
-    <h3 class="mb-4">Ajouter un match</h3>
+
+    <h3 th:text="${pageTitle}">Formulaire Match</h3>
 
     <form method="post"
-          novalidate th:action="@{'/private/days/' + ${game.day.id} + '/games'}" th:object="${game}">
+          novalidate
+          th:action="@{'/private/days/' + ${game.day.id} + '/games/save'}"
+          th:object="${game}">
+
+        <!-- ID caché si modification -->
+        <input type="hidden" th:if="${game.id != null}" th:field="*{id}" />
 
         <!-- Équipe 1 -->
         <div class="mb-3">
             <label class="form-label" for="team1">Équipe 1 <span class="text-danger">*</span></label>
             <select class="form-select" id="team1" name="team1Id" required>
-                <option disabled selected value="">-- Sélectionner une équipe --</option>
-                <option th:each="team : ${teams}" th:text="${team.name}" th:value="${team.id}"></option>
+                <option disabled value="">-- Sélectionner une équipe --</option>
+                <option th:each="team : ${teams}"
+                        th:value="${team.id}"
+                        th:text="${team.name}"
+                        th:selected="${team.id == game.team1?.id}">
+                </option>
             </select>
             <div class="invalid-feedback" th:errors="*{team1}" th:if="${#fields.hasErrors('team1')}"></div>
         </div>
@@ -31,8 +39,12 @@
         <div class="mb-3">
             <label class="form-label" for="team2">Équipe 2 <span class="text-danger">*</span></label>
             <select class="form-select" id="team2" name="team2Id" required>
-                <option disabled selected value="">-- Sélectionner une équipe --</option>
-                <option th:each="team : ${teams}" th:text="${team.name}" th:value="${team.id}"></option>
+                <option disabled value="">-- Sélectionner une équipe --</option>
+                <option th:each="team : ${teams}"
+                        th:value="${team.id}"
+                        th:text="${team.name}"
+                        th:selected="${team.id == game.team2?.id}">
+                </option>
             </select>
             <div class="invalid-feedback" th:errors="*{team2}" th:if="${#fields.hasErrors('team2')}"></div>
         </div>
@@ -51,10 +63,11 @@
             <div class="invalid-feedback" th:errors="*{team2points}" th:if="${#fields.hasErrors('team2points')}"></div>
         </div>
 
-        <!-- Boutons d'action -->
+        <!-- Actions -->
         <div class="d-flex gap-2">
             <button class="btn btn-success" type="submit">
-                <i class="bi bi-check-circle"></i> Enregistrer le match
+                <i class="bi bi-check-circle"></i>
+                <span th:text="${game.id != null} ? 'Modifier le match' : 'Enregistrer le match'">Valider</span>
             </button>
             <a class="btn btn-secondary" th:href="@{/private/days}">
                 <i class="bi bi-arrow-left"></i> Retour
@@ -68,7 +81,6 @@
         <div class="alert alert-success mt-3" role="alert" th:if="${successMessage}">
             <i class="bi bi-check-circle"></i> <span th:text="${successMessage}"></span>
         </div>
-
     </form>
 </div>
 

@@ -55,6 +55,12 @@
                                 <i class="fas fa-plus"></i> Ajouter un match
                             </a>
                         </div>
+                        <div class="mb-2 text-end">
+                            <a class="btn btn-danger btn-sm"
+                               th:href="@{'/private/championships/' + ${day.championship.id} + '/days/' + ${day.id} + '/delete'}">
+                            <i class="fas fa-plus"></i> Supprimer la journée
+                            </a>
+                        </div>
 
                         <!-- Liste des matchs -->
                         <div th:if="${!#lists.isEmpty(day.games)}">
@@ -69,17 +75,31 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="game : ${day.games}">
-                                    <td th:text="${game.team1.name}">Équipe A</td>
+                                    <td>
+                                        <img th:src="${game.team1.logo}" alt="Logo" class="team-logo me-2"
+                                             style="height: 30px; vertical-align: middle;"/>
+                                        <span th:text="${game.team1.name}">Équipe A</span>
+                                    </td>
                                     <td class="text-center">
                                         <span th:text="${game.team1points}">0</span>
                                         -
                                         <span th:text="${game.team2points}">0</span>
                                     </td>
-                                    <td th:text="${game.team2.name}">Équipe B</td>
+                                    <td>
+                                        <img th:src="${game.team2.logo}" alt="Logo" class="team-logo me-2"
+                                             style="height: 30px; vertical-align: middle;"/>
+                                        <span th:text="${game.team2.name}">Équipe A</span>
+                                    </td>
                                     <td class="text-center">
                                         <a class="btn btn-sm btn-outline-secondary"
                                            th:href="@{'/private/games/edit/' + ${game.id}}">
                                             <i class="fas fa-edit"></i> Modifier
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-sm btn-outline-secondary"
+                                           th:href="@{'/private/games/delete/' + ${game.id}}">
+                                            <i class="fa-solid fa-trash"></i> Supprimer
                                         </a>
                                     </td>
                                 </tr>

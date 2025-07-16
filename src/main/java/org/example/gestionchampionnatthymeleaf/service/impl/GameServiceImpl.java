@@ -19,4 +19,15 @@ public class GameServiceImpl implements GameService {
         gameRepository.save(game);
     }
 
+    @Override
+    public Game getGameById(Long id) {
+        return gameRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Game not found with id: " + id));
+    }
+
+    @Override
+    public void deleteGame(Long id) {
+        gameRepository.delete(getGameById(id));
+    }
+
 }
