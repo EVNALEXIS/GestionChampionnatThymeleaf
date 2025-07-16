@@ -213,7 +213,7 @@ public class TeamController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la suppression : " + e.getMessage());
         }
-        return "redirect:/private/teams";
+        return "redirect:/public/teams";
     }
 
 

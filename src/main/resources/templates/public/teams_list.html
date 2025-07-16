@@ -145,7 +145,8 @@
                                         th:data-bs-team-id="${team.id}"
                                         th:data-bs-team-name="${team.name}"
                                         title="Supprimer"
-                                        type="button">
+                                        type="button"
+                                        onclick="event.stopPropagation()">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>

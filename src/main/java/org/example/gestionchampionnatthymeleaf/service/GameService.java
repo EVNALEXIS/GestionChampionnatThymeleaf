@@ -10,4 +10,6 @@ public interface GameService {
 
     void deleteGame(Long id);
 
+    void deleteGameByTeamId(Long teamId);
+
 }
