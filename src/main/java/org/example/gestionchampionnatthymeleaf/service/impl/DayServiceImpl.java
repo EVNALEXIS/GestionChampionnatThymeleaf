@@ -1,8 +1,8 @@
 package org.example.gestionchampionnatthymeleaf.service.impl;
 
-import org.example.gestionchampionnatthymeleaf.model.Championship;
+
 import org.example.gestionchampionnatthymeleaf.model.Day;
-import org.example.gestionchampionnatthymeleaf.repository.ChampionshipRepository;
+
 import org.example.gestionchampionnatthymeleaf.repository.DayRepository;
 import org.example.gestionchampionnatthymeleaf.service.DayService;
 import org.springframework.stereotype.Service;
@@ -13,11 +13,11 @@ import java.util.List;
 public class DayServiceImpl implements DayService {
 
     private final DayRepository dayRepository;
-    private final ChampionshipRepository championshipRepository;
 
-    public DayServiceImpl(DayRepository dayRepository, ChampionshipRepository championshipRepository) {
+
+    public DayServiceImpl(DayRepository dayRepository) {
         this.dayRepository = dayRepository;
-        this.championshipRepository = championshipRepository;
+
     }
 
 

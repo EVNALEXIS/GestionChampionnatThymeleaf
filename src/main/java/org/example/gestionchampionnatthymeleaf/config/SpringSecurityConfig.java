@@ -54,17 +54,3 @@ public class SpringSecurityConfig {
         return http.build();
     }
 }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(AbstractHttpConfigurer::disable) // désactive la protection CSRF pour les tests
-//                .authorizeHttpRequests(auth -> auth
-//                        .anyRequest().permitAll() // autorise toutes les requêtes
-//                )
-//                .formLogin(AbstractHttpConfigurer::disable) // désactive complètement la page de login
-//                .logout(AbstractHttpConfigurer::disable); // désactive logout (facultatif)
-//
-//        return http.build();
-//    }
-
