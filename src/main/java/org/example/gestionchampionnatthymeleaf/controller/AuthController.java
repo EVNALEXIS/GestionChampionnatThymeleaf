@@ -28,14 +28,14 @@ public class AuthController {
         return "public/index";
     }
 
-    @GetMapping("/public/register")
+    @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         UserDto userDto = new UserDto();
         model.addAttribute("user", userDto);
-        return "public/register";
+        return "register";
     }
 
-    @PostMapping("/public/register/save")
+    @PostMapping("/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model) {
         User existingUser = userService.getUserByEmail(userDto.getEmail());
 
@@ -45,19 +45,14 @@ public class AuthController {
         }
         if (result.hasErrors()) {
             model.addAttribute("user", userDto);
-            return "public/register";
+            return "register";
         }
 
         userService.saveUser(userDto);
-        return "redirect:/public/register?success";
+        return "redirect:/register?success";
     }
 
-    @GetMapping("/private/users")
-    public String users(Model model) {
-        List<UserDto> users = userService.getAllUsers();
-        model.addAttribute("users", users);
-        return "private/users";
-    }
+
 
     @GetMapping("/login")
     public String login() {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
@@ -80,7 +80,7 @@
             <h1 class="h3 mb-0"><i class="fas fa-users"></i> Liste des Équipes</h1>
             <p class="text-muted mb-0" th:text="${#lists.size(teams)} + ' équipe(s) trouvée(s)'">0 équipe(s)</p>
         </div>
-        <a class="btn btn-success" th:href="@{/private/teams/new}">
+        <a class="btn btn-success" th:href="@{/private/teams/new}" sec:authorize="isAuthenticated()">
             <i class="fas fa-plus"></i> Nouvelle Équipe
         </a>
     </div>
@@ -133,7 +133,7 @@
 
                         <!-- Actions -->
                         <td class="table-actions text-center">
-                            <div class="btn-group btn-group-sm" role="group">
+                            <div class="btn-group btn-group-sm" role="group" sec:authorize="isAuthenticated()">
                                 <a class="btn btn-outline-primary"
                                    th:href="@{'/private/teams/edit/' + ${team.id}}"
                                    title="Modifier">

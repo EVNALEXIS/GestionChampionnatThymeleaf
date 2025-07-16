@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Accueil</title>
@@ -30,10 +30,10 @@
                         Ce système vous permet de vous inscrire, vous connecter et gérer les championnats.
                     </p>
                     <div class="mt-4 d-flex justify-content-center gap-3">
-                        <a class="btn btn-outline-primary" th:href="@{/public/register}">
+                        <a class="btn btn-outline-primary" th:href="@{/register}" sec:authorize="!isAuthenticated()">
                             <i class="fas fa-user-plus"></i> S'inscrire
                         </a>
-                        <a class="btn btn-outline-secondary" th:href="@{/login}">
+                        <a class="btn btn-outline-secondary" th:href="@{/login}" sec:authorize="!isAuthenticated()">
                             <i class="fas fa-sign-in-alt"></i> Se connecter
                         </a>
                         <a class="btn btn-outline-success" th:href="@{/public/championships}">
